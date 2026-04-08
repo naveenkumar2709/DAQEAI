@@ -1,0 +1,20 @@
+[
+    {
+        "DQ Check": "Unique",
+        "Column": "LATITUDE",
+        "Check Type": "Not Required",
+        "Value": ""
+    },
+    {
+        "DQ Check": "NotBeNull",
+        "Column": "ID",
+        "Check Type": "Not Required",
+        "Value": ""
+    },
+    {
+        "DQ Check": "ColumnCount",
+        "Column": "Table",
+        "Check Type": "Not Required",
+        "Value": "20"
+    }
+]

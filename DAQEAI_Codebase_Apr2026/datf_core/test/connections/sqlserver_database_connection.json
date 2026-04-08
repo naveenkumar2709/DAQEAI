@@ -1,0 +1,9 @@
+{
+    "connnectiontype":"mssqljdbcdatabase",
+    "connectname":"mssql_jdbcdatabase_connection",
+    "host":"host.docker.internal",
+    "port":"1433",
+    "database":"DemoDB",
+    "user":"SA",
+    "password":"gAAAAABof4mCCQC_v9dp8ysO-I12JcwvQ6r_YCxVhToY-Br40ODEKcQd8_K2eHkBlT0lJM-DYs6gx-i_tuyEAv4uT-_6FD0cDw=="
+}

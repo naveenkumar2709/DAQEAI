@@ -1,0 +1,6 @@
+--------------------------------------------------------------
+Custom Docker Image creation with Spark-Py download:
+---------------------------------------------------------------
+docker build -t daqe_spark .
+
+(don't forget the '.' at end that represents the path of dockerfile available in same folder as this file)

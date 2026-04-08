@@ -1,0 +1,30 @@
+[
+    {
+        "aliasname": "rawpatients",
+        "connectiontype": "aws-s3",
+        "path": "test/data/source/patients_source_parquet",
+        "format": "parquet",
+        "connectionname": "RawS3Bucket",
+        "excludecolumns": "",
+        "filter": "",
+        "testquerygenerationmode": "Manual",
+        "delimiter": "",
+        "querypath": "test/sql/sourcesql/patient_source_parquet_manuel.sql",
+        "comparetype": "likeobjectcompare",
+        "filename": "patients_source_parquet"
+    },
+    {
+        "aliasname": "curatedpatients",
+        "connectiontype": "aws-s3",
+        "path": "test/data/source/patients_source_parquet",
+        "format": "parquet",
+        "connectionname": "CuratedS3Bucket",
+        "excludecolumns": "",
+        "filter": "",
+        "testquerygenerationmode": "Manual",
+        "delimiter": "",
+        "querypath": "test/sql/targetsql/patient_target_parquet_manuel_mismatch.sql",
+        "comparetype": "likeobjectcompare",
+        "filename": "patients_source_parquet"
+    }
+]

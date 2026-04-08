@@ -1,0 +1,4 @@
+command: ['streamlit', 'run', 'datf_app/datf_portal.py']
+env:
+  - name: 'STREAMLIT_GATHER_USAGE_STATS'
+    value: 'false'

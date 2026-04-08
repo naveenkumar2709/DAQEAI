@@ -1,0 +1,14 @@
+[
+    {
+        "DQ Check": "DistinctSet",
+        "Column": "GENDER",
+        "Check Type": "Not Required",
+        "Value": "['M','F']"
+    },
+    {
+        "DQ Check": "Length",
+        "Column": "ZIP",
+        "Check Type": "Equal",
+        "Value": "5"
+    }
+]

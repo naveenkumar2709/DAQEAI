@@ -1,0 +1,11 @@
+{
+    "ai_apikey":"sk-test-1234567890abcdef",
+    "ai_endpoint":"https://api.ai-gateway.tigeranalytics.com",
+    "ai_model":"gpt-5-mini",
+    "databricks_url":"https://dbc-8d01fbe6-1234.cloud.databricks.com",
+    "databricks_gateway":"https://8888888888888.ai-gateway.cloud.databricks.com/openai/v1",
+    "databricks_token":"dapi-test-12345678abcdef1234567890abcdef",
+    "databricks_model":"databricks-gpt-5-mini",
+    "databricks_job_execute":"788148026190089",
+    "databricks_job_connect":"269478499664304"
+}

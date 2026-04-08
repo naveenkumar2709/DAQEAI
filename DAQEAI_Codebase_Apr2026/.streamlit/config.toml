@@ -1,0 +1,11 @@
+[server]
+folderWatchBlacklist = []
+maxUploadSize = 20
+port = 8505
+
+[client]
+showErrorDetails = "none"
+
+[theme]
+base = "light"
+primaryColor = "purple"

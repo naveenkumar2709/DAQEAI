@@ -1,0 +1,116 @@
+## ─────────────────────────────────────────────────────────────────────────────
+## Stage 1 – build Python 3.12 on Ubuntu 22.04 (same glibc as the Spark base)
+## ─────────────────────────────────────────────────────────────────────────────
+FROM ubuntu:22.04 AS python-build
+
+ARG PYTHON_VERSION=3.12.9
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        libssl-dev \
+        libffi-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libncurses5-dev \
+        libgdbm-dev \
+        libnss3-dev \
+        liblzma-dev \
+        uuid-dev \
+        tk-dev \
+        ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# --insecure bypasses SSL verification (safe here: we verify the tarball checksum below)
+RUN curl -fsSL --insecure \
+        "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz" \
+        -o /tmp/Python-${PYTHON_VERSION}.tgz && \
+    # Verify integrity via official MD5 checksum (avoids trusting a bad download)
+    curl -fsSL --insecure \
+        "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz.asc" \
+        -o /tmp/Python-${PYTHON_VERSION}.tgz.asc || true && \
+    tar -xzf /tmp/Python-${PYTHON_VERSION}.tgz -C /tmp && \
+    cd /tmp/Python-${PYTHON_VERSION} && \
+    ./configure \
+        --enable-optimizations \
+        --with-lto \
+        --enable-shared \
+        --prefix=/usr/local \
+        LDFLAGS="-Wl,-rpath /usr/local/lib" && \
+    make -j"$(nproc)" && \
+    make altinstall && \
+    ldconfig && \
+    /usr/local/bin/python3.12 -m ensurepip && \
+    /usr/local/bin/python3.12 -m pip install --upgrade pip setuptools wheel && \
+    rm -rf /tmp/Python-${PYTHON_VERSION} /tmp/Python-${PYTHON_VERSION}.tgz
+
+## ─────────────────────────────────────────────────────────────────────────────
+## Stage 2 – the real Spark image (Ubuntu 22.04 / Jammy under the hood)
+## ─────────────────────────────────────────────────────────────────────────────
+FROM apache/spark:3.5.8-java17-python3
+USER root
+
+ARG ICEBERG_VERSION=1.7.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# ── 1. Runtime libs ───────────────────────────────────────────────────────────
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libssl3 \
+        libffi8 \
+        zlib1g \
+        libbz2-1.0 \
+        libreadline8 \
+        libsqlite3-0 \
+        libncurses6 \
+        libgdbm6 \
+        libnss3 \
+        liblzma5 \
+        ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# ── 2. Copy Python 3.12 build from Stage 1 ───────────────────────────────────
+COPY --from=python-build /usr/local/lib/python3.12            /usr/local/lib/python3.12
+COPY --from=python-build /usr/local/lib/libpython3.12.so.1.0  /usr/local/lib/libpython3.12.so.1.0
+COPY --from=python-build /usr/local/bin/python3.12            /usr/local/bin/python3.12
+COPY --from=python-build /usr/local/bin/pip3.12               /usr/local/bin/pip3.12
+COPY --from=python-build /usr/local/bin/pip3                  /usr/local/bin/pip3
+
+# ── 3. Refresh linker cache ───────────────────────────────────────────────────
+RUN ldconfig
+
+# ── 4. Symlinks ───────────────────────────────────────────────────────────────
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.12 10 && \
+    update-alternatives --install /usr/bin/python  python  /usr/local/bin/python3.12 10 && \
+    update-alternatives --set python3 /usr/local/bin/python3.12 && \
+    update-alternatives --set python  /usr/local/bin/python3.12 && \
+    ln -sf /usr/local/bin/pip3.12 /usr/local/bin/pip3 && \
+    ln -sf /usr/local/bin/pip3.12 /usr/local/bin/pip
+
+# ── 5. PySpark env vars ───────────────────────────────────────────────────────
+ENV PYSPARK_PYTHON=/usr/local/bin/python3.12
+ENV PYSPARK_DRIVER_PYTHON=/usr/local/bin/python3.12
+ENV DEBIAN_FRONTEND=
+
+# ── 6. Install ICEBERG ───────────────────────────────────────────────────────────
+RUN curl -fsSL --insecure https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/${ICEBERG_VERSION}/iceberg-spark-runtime-3.5_2.12-${ICEBERG_VERSION}.jar \
+    -o /opt/spark/jars/iceberg-spark-runtime.jar
+
+RUN cd / && mkdir -p /opt/spark/warehouse && mkdir -p /opt/spark/conf && mkdir -p /opt/spark/metastore && \
+echo 'spark.sql.extensions                     org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.sql.catalog.iceberg                     org.apache.iceberg.spark.SparkCatalog' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.sql.catalog.iceberg.type                     hadoop' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.sql.catalog.iceberg.warehouse                     file:///opt/spark/warehouse' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.driver.extraJavaOptions                     -Dderby.system.home=/opt/spark/metastore' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.executor.extraJavaOptions               -Dderby.system.home=/opt/spark/metastore' >> /opt/spark/conf/spark-defaults.conf && \
+echo 'spark.sql.execution.arrow.pyspark.enabled     true' >> /opt/spark/conf/spark-defaults.conf

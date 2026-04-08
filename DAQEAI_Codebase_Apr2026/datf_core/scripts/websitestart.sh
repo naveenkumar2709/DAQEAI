@@ -1,0 +1,1 @@
+streamlit run 'datf_app/daqeai_portal.py'

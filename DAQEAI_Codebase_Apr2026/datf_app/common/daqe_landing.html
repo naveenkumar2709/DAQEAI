@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DAQE — Data Autonomous Quality Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --white:   #FFFFFF;
+    --cream:   #FDF8F2;
+    --orange:  #F47B20;
+    --orange2: #E85D04;
+    --black:   #111111;
+    --stripe:  #1A1008;
+    --purple:  #5C1E8A;
+    --purple2: #7B2FBE;
+    --gold:    #FFAB40;
+    --muted:   #6B5B4E;
+    --light:   #F5EDE2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── Tiger stripe SVG background pattern ── */
+  .tiger-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 10 60 22 Q90 34 120 18 L120 34 Q90 50 60 38 Q30 26 0 36Z' fill='%231A1008'/%3E%3Cpath d='M0 60 Q20 48 50 62 Q80 76 120 58 L120 76 Q80 94 50 80 Q20 66 0 78Z' fill='%231A1008'/%3E%3Cpath d='M0 100 Q40 88 70 102 Q95 114 120 98 L120 114 Q95 128 70 116 Q40 104 0 118Z' fill='%231A1008'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; padding: 0 32px 80px; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 3px solid var(--black);
+    animation: fadeDown .5s ease both;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem;
+    letter-spacing: .04em; color: var(--black);
+  }
+  .logo-icon {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: var(--orange);
+    box-shadow: 4px 4px 0 var(--black);
+    overflow: hidden; position: relative; flex-shrink: 0;
+    background-image: repeating-linear-gradient(
+      -55deg,
+      transparent 0px, transparent 7px,
+      rgba(0,0,0,0.35) 7px, rgba(0,0,0,0.35) 11px
+    );
+  }
+  .logo span { color: var(--orange); }
+  .badge-pill {
+    background: var(--cream); color: var(--muted);
+    font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: .78rem;
+    letter-spacing: .05em; padding: 9px 20px; border-radius: 100px;
+    border: 2px solid var(--black);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 40px; align-items: center;
+    padding: 70px 0 60px;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--orange); color: var(--black);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .72rem;
+    letter-spacing: .18em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 4px;
+    border: 2px solid var(--black); margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: clamp(2.8rem, 5.5vw, 4.6rem);
+    line-height: 1.06; letter-spacing: -.02em;
+    margin-bottom: 24px; color: var(--black);
+  }
+  .hero h1 .hl-orange { color: var(--orange2); }
+  .hero h1 .hl-purple { color: var(--purple); }
+  .hero-sub {
+    font-size: 1rem; line-height: 1.75; color: var(--muted);
+    max-width: 520px; margin-bottom: 38px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* paw art */
+  .hero-art {
+    width: 220px; height: 220px; flex-shrink: 0;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .hero-art-ring {
+    width: 200px; height: 200px; border-radius: 50%;
+    border: 3px solid var(--black);
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 6px 6px 0 var(--black);
+    overflow: hidden; position: relative;
+  }
+  .hero-art-ring::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 14px,
+      rgba(244,123,32,0.15) 14px, rgba(244,123,32,0.15) 20px
+    );
+  }
+  .hero-art-inner {
+    font-size: 0; position: relative; z-index: 1;
+    width: 120px; height: 120px;
+    background: var(--orange);
+    border: 3px solid var(--black);
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 var(--black);
+    background-image: repeating-linear-gradient(
+      -55deg,
+      transparent 0px, transparent 12px,
+      rgba(0,0,0,0.3) 12px, rgba(0,0,0,0.3) 18px
+    );
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    background: var(--orange); color: var(--black);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem;
+    letter-spacing: .06em; padding: 14px 28px; border-radius: 6px;
+    border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black);
+    text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+
+  .btn-purple {
+    background: var(--purple); color: #fff;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem;
+    letter-spacing: .06em; padding: 14px 28px; border-radius: 6px;
+    border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black);
+    text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn-purple:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+
+  .btn-ghost {
+    background: transparent; color: var(--black);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem;
+    letter-spacing: .06em; padding: 13px 28px; border-radius: 6px;
+    border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black);
+    text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+
+  /* ── STRIPE DIVIDER ── */
+  .stripe-divider {
+    height: 18px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--black) 0px, var(--black) 28px,
+      var(--orange) 28px, var(--orange) 52px,
+      var(--black) 52px, var(--black) 56px,
+      var(--purple) 56px, var(--purple) 76px,
+      var(--black) 76px, var(--black) 80px
+    );
+    margin: 10px 0 60px;
+    border-radius: 3px;
+    border: 2px solid var(--black);
+    box-shadow: 3px 3px 0 rgba(0,0,0,.15);
+    animation: fadeUp .5s .15s ease both;
+  }
+
+  /* ── STATS ── */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 2px solid var(--black); border-radius: 12px;
+    overflow: hidden; margin-bottom: 72px;
+    box-shadow: 5px 5px 0 var(--black);
+    animation: fadeUp .6s .2s ease both;
+  }
+  .stat {
+    padding: 28px 24px; border-right: 2px solid var(--black);
+    background: var(--cream); text-align: center;
+    transition: background .2s;
+  }
+  .stat:hover { background: var(--light); }
+  .stat:last-child { border-right: none; }
+  .stat:nth-child(2) { background: var(--orange); }
+  .stat:nth-child(2):hover { background: var(--orange2); }
+  .stat:nth-child(4) { background: var(--purple); color: white; }
+  .stat:nth-child(4):hover { background: var(--purple2); }
+  .stat-value {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 2.2rem; line-height: 1; display: block;
+  }
+  .stat:nth-child(2) .stat-value { color: var(--black); }
+  .stat:nth-child(4) .stat-value { color: var(--gold); }
+  .stat-label { font-size: .72rem; font-weight: 500; letter-spacing: .08em; margin-top: 6px; opacity: .75; text-transform: uppercase; display: block; }
+
+  /* ── SECTION HEADER ── */
+  .sec-head {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 36px;
+    animation: fadeUp .6s ease both;
+  }
+  .sec-tag {
+    background: var(--black); color: var(--orange);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .72rem;
+    letter-spacing: .18em; text-transform: uppercase; padding: 6px 14px;
+    border-radius: 4px;
+  }
+  .sec-line { flex: 1; height: 2px; background: var(--black); }
+
+  /* ── FEATURE CARDS ── */
+  .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px; margin-bottom: 72px;
+  }
+  .card {
+    background: var(--cream); border: 2px solid var(--black);
+    border-radius: 12px; padding: 30px;
+    box-shadow: 5px 5px 0 var(--black);
+    transition: transform .18s, box-shadow .18s;
+    animation: fadeUp .6s ease both;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  }
+  .card:nth-child(1)::before { background: var(--orange); }
+  .card:nth-child(2)::before { background: var(--purple); }
+  .card:nth-child(3)::before { background: var(--orange2); }
+  .card:nth-child(4)::before { background: var(--purple2); }
+  .card:nth-child(5)::before { background: var(--black); }
+  .card:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--black); }
+
+  .card:nth-child(1) { animation-delay: .08s; }
+  .card:nth-child(2) { animation-delay: .14s; }
+  .card:nth-child(3) { animation-delay: .20s; }
+  .card:nth-child(4) { animation-delay: .26s; }
+  .card:nth-child(5) { animation-delay: .32s; }
+
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 18px;
+    border: 2px solid var(--black);
+  }
+  .card:nth-child(1) .card-icon { background: var(--orange); }
+  .card:nth-child(2) .card-icon { background: var(--purple); }
+  .card:nth-child(3) .card-icon { background: var(--gold); }
+  .card:nth-child(4) .card-icon { background: var(--purple2); }
+  .card:nth-child(5) .card-icon { background: var(--black); }
+
+  .card-title {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    margin-bottom: 10px; color: var(--black);
+  }
+  .card-desc { font-size: .84rem; line-height: 1.7; color: var(--muted); }
+
+  /* ── SALIENT FEATURES ── */
+  .salient-wrap {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 2px solid var(--black); border-radius: 12px;
+    overflow: hidden; margin-bottom: 72px;
+    box-shadow: 5px 5px 0 var(--black);
+    animation: fadeUp .7s .2s ease both;
+  }
+  .salient-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 26px;
+    border-bottom: 2px solid var(--black);
+    border-right: 2px solid var(--black);
+    background: var(--white);
+    transition: background .18s;
+  }
+  .salient-item:hover { background: var(--light); }
+  .salient-item:nth-child(even) { border-right: none; }
+  .salient-item:nth-last-child(-n+2) { border-bottom: none; }
+  .salient-num {
+    font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.4rem;
+    color: var(--orange); min-width: 36px; line-height: 1;
+  }
+  .salient-item:nth-child(even) .salient-num { color: var(--purple); }
+  .salient-text { font-size: .84rem; font-weight: 500; line-height: 1.5; color: var(--black); }
+
+  /* ── TIGER STRIPE BAND ── */
+  .stripe-band {
+    background: var(--black);
+    border-radius: 14px; border: 2px solid var(--black);
+    padding: 48px 52px;
+    margin-bottom: 72px;
+    position: relative; overflow: hidden;
+    box-shadow: 6px 6px 0 var(--orange);
+    animation: fadeUp .7s .25s ease both;
+  }
+  .stripe-band::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; opacity: .08;
+    background-image: repeating-linear-gradient(
+      -55deg,
+      transparent 0px, transparent 18px,
+      var(--orange) 18px, var(--orange) 26px
+    );
+  }
+  .stripe-band-inner { position: relative; z-index: 1; text-align: center; }
+  .stripe-band h2 {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 2rem; color: var(--white); margin-bottom: 14px;
+  }
+  .stripe-band h2 em { font-style: normal; color: var(--orange); }
+  .stripe-band p { color: #aaa; font-size: .9rem; margin-bottom: 30px; }
+  .stripe-band .hero-ctas { justify-content: center; }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden; border-top: 2px solid var(--black); border-bottom: 2px solid var(--black);
+    background: var(--black);
+    padding: 16px 0; margin-bottom: 72px;
+    animation: fadeUp .5s .15s ease both;
+  }
+  .ticker-inner {
+    display: flex; gap: 0; white-space: nowrap;
+    animation: slide 32s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: .92rem;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--white);
+    padding: 0 32px; display: inline-flex; align-items: center; gap: 32px;
+  }
+  .ticker-item::after {
+    content: '◆';
+    color: var(--orange);
+    font-size: .7rem;
+  }
+  @keyframes slide {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 3px solid var(--black); padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+    animation: fadeUp .5s .3s ease both;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); border: 2px solid var(--black); }
+  .footer-links { display: flex; gap: 24px; font-size: .82rem; }
+  .footer-links a { color: var(--black); text-decoration: none; font-weight: 500; }
+  .footer-links a:hover { color: var(--orange2); }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:720px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-art { display: none; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-bottom: 2px solid var(--black); }
+    .salient-wrap { grid-template-columns: 1fr; }
+    .salient-item:nth-child(even) { border-right: none; }
+    .salient-item:nth-last-child(-n+2) { border-bottom: 2px solid var(--black); }
+    .salient-item:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="tiger-bg"></div>
+
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>
+        <span class="hl-orange">Data</span><br/>
+        Autonomous Quality<br/>
+        <span class="hl-purple">Engineering.ai</span>
+      </h1>
+      <p class="hero-sub">
+        A unified platform that automates end-to-end data validation — ensuring accuracy, consistency, and reliability across all your datasets, powered by AI.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn-primary">← Select a Module from Sidebar</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-art-ring">
+        <div class="hero-art-inner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tiger stripe divider -->
+  <div class="stripe-divider"></div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-value">100%</span>
+      <span class="stat-label">Automated Validation</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">AI</span>
+      <span class="stat-label">SQL Generation</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">E2E</span>
+      <span class="stat-label">Test Execution</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">∞</span>
+      <span class="stat-label">Hyperscaler Ready</span>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <span class="ticker-item">Automated Validation</span>
+      <span class="ticker-item">Source-to-Target Testing</span>
+      <span class="ticker-item">AI SQL Generation</span>
+      <span class="ticker-item">Data Profiling</span>
+      <span class="ticker-item">DQ Rules Engine</span>
+      <span class="ticker-item">Hyperscalar Support</span>
+      <span class="ticker-item">Big Data at Scale</span>
+      <span class="ticker-item">BI Layer Validations</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">Automated Validation</span>
+      <span class="ticker-item">Source-to-Target Testing</span>
+      <span class="ticker-item">AI SQL Generation</span>
+      <span class="ticker-item">Data Profiling</span>
+      <span class="ticker-item">DQ Rules Engine</span>
+      <span class="ticker-item">Hyperscalar Support</span>
+      <span class="ticker-item">Big Data at Scale</span>
+      <span class="ticker-item">BI Layer Validations</span>
+    </div>
+  </div>
+
+  <!-- Core Capabilities -->
+  <div class="sec-head">
+    <span class="sec-tag">Core Capabilities</span>
+    <div class="sec-line"></div>
+  </div>
+  <div class="features">
+    <div class="card">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Automated Data Validation</div>
+      <div class="card-desc">Comprehensive platform automating the entire validation process — accuracy, consistency, and reliability across all datasets with zero manual overhead.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">End-to-End Test Execution</div>
+      <div class="card-desc">Seamlessly execute test scripts validating data transformations between source and target. Supports ingestion, transformation, and migration scenarios.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">AI-Powered SQL Generation</div>
+      <div class="card-desc">Leverage GenAI to generate optimized SQL for complex queries. Converts STTM specs to business-rule SQL — reducing manual effort dramatically.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Advanced Data Profiling</div>
+      <div class="card-desc">In-depth insight into source and target datasets — patterns, anomalies, and key metrics surfaced clearly for faster, confident decisions.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Data Quality Rules Engine</div>
+      <div class="card-desc">Automates DQ rule-based validation ensuring datasets meet quality standards — preventing errors and building trust in every data-driven decision.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">BI Tools Data Reconciliation</div>
+      <div class="card-desc">Ensures data consistency and accuracy across different Business Intelligence tools — identifying discrepancies and resolving them efficiently.</div>
+    </div>
+  </div>
+
+  <!-- Salient Features -->
+  <div class="sec-head">
+    <span class="sec-tag">Salient Features</span>
+    <div class="sec-line"></div>
+  </div>
+  <div class="salient-wrap">
+    <div class="salient-item"><span class="salient-num">01</span><span class="salient-text">Comprehensive Automated Data Validation Platform</span></div>
+    <div class="salient-item"><span class="salient-num">02</span><span class="salient-text">End-to-End Test Execution for Source-to-Target Mappings</span></div>
+    <div class="salient-item"><span class="salient-num">03</span><span class="salient-text">Ingestion, Transformation & Migration Scenarios</span></div>
+    <div class="salient-item"><span class="salient-num">04</span><span class="salient-text">Large Scale Big Data Validations with Hyperscalar Support</span></div>
+    <div class="salient-item"><span class="salient-num">05</span><span class="salient-text">AI-Powered SQL Generation Tool</span></div>
+    <div class="salient-item"><span class="salient-num">06</span><span class="salient-text">STTM to Business Rule SQL Generation</span></div>
+    <div class="salient-item"><span class="salient-num">07</span><span class="salient-text">Advanced Data Profiling Capabilities</span></div>
+    <div class="salient-item"><span class="salient-num">08</span><span class="salient-text">Robust DQ Checks for Source & Target Systems</span></div>
+  </div>
+
+  <!-- CTA strip -->
+  <div class="stripe-band">
+    <div class="stripe-band-inner">
+      <h2>Ready to unleash <em>Data Quality</em><br/>at Tiger speed?</h2>
+      <p>Select a module from the sidebar to explore the platform in action.</p>
+      <div class="hero-ctas">
+        <a href="mailto:qe-core-team@tigeraanalytics.com" class="btn-primary">Contact QE Core Team →</a>
+        <a href="https://streamlit.io" target="_blank" class="btn-ghost" style="color:#fff;border-color:#555;">Learn More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">
+      <div class="footer-logo-dot"></div>
+      DAQE · Tiger Analytics
+    </div>
+    <div class="footer-links">
+      <a href="/cdn-cgi/l/email-protection#3f4c5e

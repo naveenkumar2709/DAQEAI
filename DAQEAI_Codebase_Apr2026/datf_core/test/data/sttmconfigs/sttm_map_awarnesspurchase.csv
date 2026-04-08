@@ -1,0 +1,17 @@
+﻿tgttabletype,tgttablename,tgtcolumnname,srctabletype,srctablename,srccolumnname,transformationtype,filteroutnulls,selectsqlexpression,filtersqlexpression,lookuptablename,lookupjoincolumnname,lookupreturnexpression
+target,Awareness_Purchase,awareness_purchase_key,source,-,-,derived,,"CONCAT(geo_id, '', brand_id, '', animal_id, '_', metric)",,,,
+target,Awareness_Purchase,geo_id,source,Geography,geo_id,derived,Y,,geo_cd = 'CA',GOOGLE_TRENDS_DATA,geo_cd,geo_id
+target,Awareness_Purchase,brand_id,source,Brand,brand_id,derived,Y,"INITCAP(SPLIT_PART(SPLIT_PART(brands_keywords, ':', 1), ' ', 1))",,GOOGLE_TRENDS_DATA,brand_name,brand_id
+target,Awareness_Purchase,sub_brand_id,-,-,-,hardcoded,,NULL,,,,
+target,Awareness_Purchase,brand_tech_id,-,-,-,hardcoded,,NULL,,,,
+target,Awareness_Purchase,animal_id,source,Category,animal_id,derived,Y,"INITCAP(SPLIT_PART(SPLIT_PART(brands_keywords, ':', 1), ' ', 2))",,GOOGLE_TRENDS_DATA,animal_type,animal_id
+target,Awareness_Purchase,base,-,-,-,hardcoded,,NULL,,,,
+target,Awareness_Purchase,metric,-,-,-,hardcoded,,'Google Search Index',,,,
+target,Awareness_Purchase,total,-,-,-,hardcoded,,NULL,,,,
+target,Awareness_Purchase,value,source,GOOGLE_TRENDS_DATA,google_search_index,directmapped,Y,,,,,
+target,Awareness_Purchase,period_id,-,-,-,hardcoded,,'WEEK',,,,
+target,Awareness_Purchase,period_number,source,GOOGLE_TRENDS_DATA,Week,derived,Y,"EXTRACT(WEEK FROM TO_DATE(Week, 'YYYY-MM-DD'))",,,,
+target,Awareness_Purchase,start_dt,source,GOOGLE_TRENDS_DATA,Week,derived,Y,"DATE_TRUNC('WEEK', TO_DATE(Week, 'YYYY-MM-DD'))",,,,
+target,Awareness_Purchase,end_dt,source,GOOGLE_TRENDS_DATA,Week,derived,Y,"DATE_TRUNC('WEEK', TO_DATE(Week, 'YYYY-MM-DD')) + INTERVAL '6 days'",,,,
+target,Awareness_Purchase,source_id,-,-,-,hardcoded,,'CA_BE_Awareness',,,,
+target,Awareness_Purchase,job_id,-,-,-,hardcoded,,'CA Data Load',,,,

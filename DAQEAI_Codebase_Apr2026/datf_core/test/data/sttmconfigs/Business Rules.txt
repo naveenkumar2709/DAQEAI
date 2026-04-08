@@ -1,0 +1,21 @@
+Business Rules:
+
+Rule 1 - Brands to be available in Awareness_Purchase >> Cesar, Dentastix, Greenies, Iams, Pedigree, Sheba, Temptations, Whiskas
+
+Rule 2 - For the brand 'Cesar' and Animal Type 'Dog' >> Average for the 'Value' column should be 47 for the year 2024
+
+Rule 3 - For the brand 'Dentastix' >> Average for the 'Value' column should be 13 for the year 2024.
+
+Rule 4 - For the brand 'Greenies' and Animal Type 'Dog' >> Average for the 'Value' column should be 10 for the year 2024.
+
+Rule 5 - For the brand 'Iams' and Animal Type 'Cat' >> Average for the 'Value' column should be 47 for the year 2024.
+
+Rule 6 - For the brand 'Iams' and Animal Type 'Dog' >> Average for the 'Value' column should be 34 for the year 2024.
+
+Rule 7 - For the brand 'Pedigree' and Animal Type 'Dog' >> Average for the 'Value' column should be 18 for the year 2024.
+
+Rule 8 - For the brand 'Sheba' >> Average for the 'Value' column should be 60 for the year 2024.
+
+Rule 9 - For the brand 'Temptations' and Animal Type 'Cat' >> Average for the 'Value' column should be 7 for the year 2024.
+
+Rule 10 - For the brand 'Whiskas' and Animal Type 'Cat' >> Average for the 'Value' column should be 47 for the year 2024.

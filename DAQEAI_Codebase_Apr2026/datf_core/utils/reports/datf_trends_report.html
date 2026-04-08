@@ -1,0 +1,141 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Historical Trends Dashboard</title>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body>    
+    
+      <h2>1. Historical Trends Graph (Last 40 Runs)</h2>
+      <div>
+        <label for="droprefresh">Choose to: </label>
+        <select id="droprefresh" onchange="refreshGraph()">
+          <option value="blank" />
+          <option value="refresh">Refresh</option>
+        </select>
+      </div>
+      <div id="trends_chart"></div>
+      
+        <script type="text/javascript">
+            google.charts.load('current', { packages: ['corechart'], callback: drawTrends });
+            
+            var trendsData = [['02_Apr_2026_08_01_35_UTC', 1, 1, 0, 1.48], ['02_Apr_2026_07_48_07_UTC', 1, 1, 0, 1.48], ['23_Mar_2026_13_56_32_UTC', 2, 1, 1, 2.95], ['20_Mar_2026_17_11_20_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_17_02_25_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_56_44_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_49_09_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_44_21_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_37_53_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_35_13_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_23_53_UTC', 1, 0, 1, 1.48], ['20_Mar_2026_16_19_17_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_15_39_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_33_40_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_30_44_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_24_51_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_31_02_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_27_25_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_16_37_UTC', 2, 2, 0, 2.95], ['13_Mar_2026_13_10_17_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_12_58_08_UTC', 2, 2, 0, 2.95], ['05_Mar_2026_11_38_52_UTC', 2, 2, 0, 2.95], ['03_Mar_2026_16_37_53_UTC', 5, 0, 5, 7.38], ['03_Mar_2026_16_32_37_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_26_47_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_15_06_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_10_25_UTC', 5, 0, 5, 7.38], ['03_Mar_2026_15_22_30_UTC', 3, 0, 3, 4.43], ['03_Mar_2026_13_51_16_UTC', 3, 0, 3, 4.43], ['03_Mar_2026_13_34_16_UTC', 3, 3, 0, 4.43], ['05_Feb_2026_10_27_42_UTC', 2, 2, 0, 2.95], ['22_Dec_2025_15_43_42_UTC', 1, 1, 0, 1.48], ['22_Dec_2025_11_33_23_UTC', 1, 0, 1, 1.48], ['22_Dec_2025_11_24_52_UTC', 2, 1, 1, 2.95], ['15_Dec_2025_05_04_15_UTC', 2, 2, 0, 2.95], ['15_Dec_2025_05_03_14_UTC', 2, 2, 0, 2.95], ['24_Oct_2025_13_43_22_UTC', 2, 2, 0, 2.95], ['24_Oct_2025_13_05_46_UTC', 1, 0, 1, 1.48], ['24_Oct_2025_12_54_17_UTC', 3, 3, 0, 4.43], ['02_Sep_2025_05_22_14_UTC', 1, 1, 0, 1.48]]
+            function drawTrends() {
+                var data = google.visualization.arrayToDataTable([
+                ['Created Time', 'Total', 'Failed', 'Passed', 'Average'],
+                ...trendsData
+                ]);
+                
+                var options = {
+                    vAxis: {title: 'Results'},
+                    hAxis: {title: 'Timeline'},
+                    legend: {position: 'bottom', alignment: 'center', maxLines: 1},
+                    isStacked: true,
+                    seriesType: 'bars',
+                    series: {3: {type: 'line', curveType: 'function'}}
+                };
+                
+                var chart = new google.visualization.ComboChart(document.getElementById('trends_chart'));
+                chart.draw(data, options);
+            }
+            
+            function refreshGraph() {
+              var selectedFilter = document.getElementById('droprefresh').value;
+              var newData = [['02_Apr_2026_08_01_35_UTC', 1, 1, 0, 1.48], ['02_Apr_2026_07_48_07_UTC', 1, 1, 0, 1.48], ['23_Mar_2026_13_56_32_UTC', 2, 1, 1, 2.95], ['20_Mar_2026_17_11_20_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_17_02_25_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_56_44_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_49_09_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_44_21_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_37_53_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_35_13_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_23_53_UTC', 1, 0, 1, 1.48], ['20_Mar_2026_16_19_17_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_16_15_39_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_33_40_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_30_44_UTC', 1, 1, 0, 1.48], ['20_Mar_2026_15_24_51_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_31_02_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_27_25_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_13_16_37_UTC', 2, 2, 0, 2.95], ['13_Mar_2026_13_10_17_UTC', 1, 1, 0, 1.48], ['13_Mar_2026_12_58_08_UTC', 2, 2, 0, 2.95], ['05_Mar_2026_11_38_52_UTC', 2, 2, 0, 2.95], ['03_Mar_2026_16_37_53_UTC', 5, 0, 5, 7.38], ['03_Mar_2026_16_32_37_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_26_47_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_15_06_UTC', 5, 5, 0, 7.38], ['03_Mar_2026_16_10_25_UTC', 5, 0, 5, 7.38], ['03_Mar_2026_15_22_30_UTC', 3, 0, 3, 4.43], ['03_Mar_2026_13_51_16_UTC', 3, 0, 3, 4.43], ['03_Mar_2026_13_34_16_UTC', 3, 3, 0, 4.43], ['05_Feb_2026_10_27_42_UTC', 2, 2, 0, 2.95], ['22_Dec_2025_15_43_42_UTC', 1, 1, 0, 1.48], ['22_Dec_2025_11_33_23_UTC', 1, 0, 1, 1.48], ['22_Dec_2025_11_24_52_UTC', 2, 1, 1, 2.95], ['15_Dec_2025_05_04_15_UTC', 2, 2, 0, 2.95], ['15_Dec_2025_05_03_14_UTC', 2, 2, 0, 2.95], ['24_Oct_2025_13_43_22_UTC', 2, 2, 0, 2.95], ['24_Oct_2025_13_05_46_UTC', 1, 0, 1, 1.48], ['24_Oct_2025_12_54_17_UTC', 3, 3, 0, 4.43], ['02_Sep_2025_05_22_14_UTC', 1, 1, 0, 1.48]];
+              var data = google.visualization.arrayToDataTable([
+                ['Created Time', 'Total', 'Failed', 'Passed', 'Average'],
+                ...newData
+                ]);
+                
+                var options = {
+                    vAxis: {title: 'Results'},
+                    hAxis: {title: 'Timeline'},
+                    legend: {position: 'bottom', alignment: 'center', maxLines: 1},
+                    isStacked: true,
+                    seriesType: 'bars',
+                    series: {3: {type: 'line', curveType: 'function'}}
+                };
+                
+                var chart = new google.visualization.ComboChart(document.getElementById('trends_chart'));
+                chart.draw(data, options);
+            }
+        </script>
+    
+      <h2>2. No. of Test Cases Executed (All Time)</h2>
+      <div>
+        <label for="filter">Test Case Type Filter: </label>
+        <select id="filter" onchange="updateGraph()">
+          <option value="blank" />
+          <option value="count">Counting Rows</option>
+          <option value="duplicate">Finding Duplicates</option>
+          <option value="content">Matching Contents</option>
+        </select>
+      </div>
+      <div id="chart_div"></div>
+
+      <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'], callback: drawChart });
+
+        var countData = [['Failed', 72, 'color:#DD4477'], ['Passed', 99, 'color:#329262']];
+        var duplicateData = [['Failed', 29, 'color:#DD4477'], ['Passed', 41, 'color:#329262']];
+        var contentData = [['Failed', 51, 'color:#DD4477'], ['Passed', 14, 'color:#329262']];
+
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['Test Result', 'Count', {role:'style'}],
+            ...countData
+          ]);
+
+          var options = {
+            title: 'Bar Graph based on Filter',
+            legend: {position: 'none'},
+            hAxis: {minValue: 0},
+            is3D: true,
+            // Other chart options
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+
+        function updateGraph() {
+          var selectedFilter = document.getElementById('filter').value;
+          var newData;
+
+          switch (selectedFilter) {
+            case 'count':
+              newData = countData;
+              break;
+            case 'duplicate':
+              newData = duplicateData;
+              break;
+            case 'content':
+              newData = contentData;
+              break;
+            default:
+              newData = countData;
+              break;
+          }
+
+          var data = google.visualization.arrayToDataTable([
+            ['Test Result', 'Count', {role:'style'}],
+            ...newData
+          ]);
+
+          var options = {
+            title: 'Bar Graph based on Filter',
+            legend: {position: 'none'},
+            hAxis: {minValue: 0},
+            is3D: true,
+            // Other chart options
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+      </script>
+    
+    </body>
+    </html>
+    

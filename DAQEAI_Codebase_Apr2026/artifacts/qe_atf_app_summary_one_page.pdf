@@ -1,0 +1,70 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >> endobj
+4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> endobj
+6 0 obj << /Length 4640 >> stream
+0.09 0.25 0.35 rg 0 560 842 35 re f
+BT /F2 22 Tf 1 1 1 rg 1 0 0 1 20 571 Tm (QE_ATF App Summary) Tj ET
+0.80 0.84 0.87 RG 421 40 m 421 540 l S
+BT /F2 12 Tf 0.09 0.25 0.35 rg 1 0 0 1 22 528 Tm (What It Is) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 512 Tm (QE_ATF is a Streamlit-based automated testing framework for) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 500 Tm (data migration and ETL validation. Repo evidence shows it) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 488 Tm (supports source-to-target testing, data quality checks, SQL) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 476 Tm (generation, profiling, and PDF/HTML reporting.) Tj ET
+BT /F2 12 Tf 0.09 0.25 0.35 rg 1 0 0 1 22 460 Tm (Who It's For) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 444 Tm (Primary persona: QA / data quality engineers validating data) Tj ET
+BT /F1 9.2 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 432 Tm (pipelines, migrations, and source-to-target mappings.) Tj ET
+BT /F2 12 Tf 0.09 0.25 0.35 rg 1 0 0 1 22 416 Tm (What It Does) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 400 Tm (- Create and manage test configs and protocol files from) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 389 Tm (the UI.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 377 Tm (- Run count, content, duplicate, null, schema, and) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 366 Tm (fingerprint checks.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 354 Tm (- Generate SQL from STTM/source-to-target mappings and) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 343 Tm (bulk prompts.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 331 Tm (- Profile source and target datasets and export HTML) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 320 Tm (reports.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 308 Tm (- Run data quality suites from JSON rules with PDF) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 297 Tm (outputs.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 285 Tm (- Store execution state in SQLite and generate) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 274 Tm (summary/detail reports.) Tj ET
+BT /F2 12 Tf 0.09 0.25 0.35 rg 1 0 0 1 22 260 Tm (How To Run) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 244 Tm (- Install deps: pip install -r requirements.txt) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 232 Tm (- Start app: streamlit run datf_app/daqeai_portal.py) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 220 Tm (- Alternative packaged run exists in app.yml with the same) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 209 Tm (Streamlit command.) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 22 197 Tm (- Docker helper scripts exist under datf_core/scripts/;) Tj ET
+BT /F1 8.9 Tf 0.12 0.12 0.12 rg 1 0 0 1 32 186 Tm (production deployment details are Not found in repo.) Tj ET
+BT /F2 12 Tf 0.09 0.25 0.35 rg 1 0 0 1 440 528 Tm (How It Works) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 512 Tm (- UI: Streamlit entry at datf_app/daqeai_portal.py with) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 501 Tm (feature pages in datf_app/pages/.) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 489 Tm (- App services: datf_app/common/commonmethods.py handles) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 478 Tm (uploads, protocol loading, AI SQL prompts, profiling, and) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 467 Tm (job dispatch.) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 455 Tm (- Execution layer: PySpark-based runners in) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 444 Tm (datf_core/src/s2ttester.py, dqtester.py, and) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 433 Tm (connections2t.py.) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 421 Tm (- Config/data: Excel protocols, STTM files, SQL, JSON) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 410 Tm (connections, and sample data live under datf_core/test/.) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 398 Tm (- State/output: SQLite DBs in datf_core/utils/ plus) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 387 Tm (generated HTML/PDF reports in datf_core/utils/reports and) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 376 Tm (datf_core/test/results/.) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 440 364 Tm (- Runtime routing: testconfig.py switches execution between) Tj ET
+BT /F1 8.8 Tf 0.12 0.12 0.12 rg 1 0 0 1 450 353 Tm (Docker and Databricks jobs.) Tj ET
+BT /F1 7.5 Tf 0.45 0.45 0.45 rg 1 0 0 1 22 24 Tm (Source basis: README.md, app.yml, testconfig.py, datf_app/, datf_core/scripts/, datf_core/src/, datf_core/test/, datf_core/utils/.) Tj ET
+
+endstream endobj
+xref
+0 7
+0000000000 65535 f 
+0000000010 00000 n 
+0000000060 00000 n 
+0000000118 00000 n 
+0000000255 00000 n 
+0000000326 00000 n 
+0000000402 00000 n 
+trailer << /Size 7 /Root 1 0 R >>
+startxref
+5095
+%%EOF
