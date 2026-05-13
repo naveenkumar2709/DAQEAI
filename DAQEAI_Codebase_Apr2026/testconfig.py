@@ -23,7 +23,7 @@ protocol_engine = "databricks-free" # options: databricks, databricks-free, dock
 database_engine = "default" # options: default, *snowflake, *delta
 
 if "databricks" in protocol_engine.lower() and os.getenv('CWD') is not None:
-    root_path = os.getenv('CWD') + "datf_core/"
+    root_path = os.getenv('CWD') + "/datf_core/"
 elif protocol_engine == "docker":
     root_path = "datf_core/"
 else:
